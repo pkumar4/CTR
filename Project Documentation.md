@@ -17,13 +17,13 @@ targets = targets([2 3 4 5 6 7 1 8 9 10 11 12 13], :);
 
 What is the significance of H? It is end-effector _but don’t understand how it has been defined._
 
-Creates concentric tube robots signature of **Balance** type
+Creates concentric tube robots signature of **Balance** type.Balanced pair is 2 curved sgments and 2 straight segments
 ```
 ctr_ = [];
 i = 1;
 ctr_(i).type      = 'balanced';
 ```
-Creates concentric tube robots signature of **Fixed** type
+Creates concentric tube robots signature of **Fixed** type. Fixed curvature tube is a straight segment and a curved segment.
 ```
 i = 2;
 ctr_(i).type      = 'fixed';
