@@ -31,6 +31,18 @@ ctr_(i).type      = 'fixed';
 ctr_(i).u         = 45;
 ctr_(i).u_min     = 0;
 ```
+Attributes of CTR:
+* Id
+* U		curvature
+* Length	arclength
+* K		stiffness
+* Diameter	
+* Theta		need to write
+* Phi		need to write
+* Start		arc start
+* End		arc end
+* Curve		holds the curve
+
 
 
 
