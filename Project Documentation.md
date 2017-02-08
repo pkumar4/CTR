@@ -13,10 +13,10 @@ mopts.variables = {'lengths_curved', 'curvatures', 'base'};
 mopts.method = 'fminsearchbnd';
 ```
 
-_TBC - what does it do?_
+__to be confirmed__ 
 targets = targets([2 3 4 5 6 7 1 8 9 10 11 12 13], :);
 
-What is the significance of H? It is end-effector _but don’t understand how it has been defined._
+H is end-effector _but need to understand line 53-56_
 
 Creates an array of CTR
 ```
@@ -116,11 +116,49 @@ Length is set as diff between arc end and arc length for 3rd element
 ```
 The second element is the same as first element except for the value of theta and k
 
-** Why we are taking the unique s?
+** Why we are taking the unique s?**
 ```
 s = unique(s);
 ```
 
+###CTRCreateSimpleCTRFromFullCTR.m
+This is invoked from CTRCreateCTRFromFile.m,which read the data file and loads the full ctr. The full ctr is passed to CTRCreateSimpleCTRFromFullCTR to get a compact version of CTR
+```
+while i <= n_segments
+    
+    if isnan(phis(i))
+      if isnan(phis(i+1))
+        simple_ctr_segments = simple_ctr_segments + 1;
+        simpleCTR(simple_ctr_segments).type      = 'balanced';
+
+        simpleCTR(simple_ctr_segments).u         = fullCTR(i+2).u;
+        simpleCTR(simple_ctr_segments).c_len     = fullCTR(i+2).length;
+        
+        simpleCTR(simple_ctr_segments).k         = fullCTR(i+2).k;
+        simpleCTR(simple_ctr_segments).diameter  = fullCTR(i+2).diameter;
+        simpleCTR(simple_ctr_segments).theta     = [thetas(i+2) thetas(i+3)];
+        simpleCTR(simple_ctr_segments).phi       = phis(i+2);
+        
+        i = i + 4;
+      else
+        simple_ctr_segments = simple_ctr_segments + 1;
+        simpleCTR(simple_ctr_segments).type      = 'fixed';
+
+        simpleCTR(simple_ctr_segments).u         = fullCTR(i+1).u;
+        simpleCTR(simple_ctr_segments).c_len     = fullCTR(i+1).length;
+        
+        simpleCTR(simple_ctr_segments).k         = fullCTR(i+1).k;
+        simpleCTR(simple_ctr_segments).diameter  = fullCTR(i+1).diameter;
+        simpleCTR(simple_ctr_segments).theta     = thetas(i+1);
+        simpleCTR(simple_ctr_segments).phi       = phis(i+1);
+        
+        i = i + 2;
+      end
+    end
+```
+2 NaN phis means the full ctr is a balanced one. In case of 1 NaN phi it means the full ctr is of fixed type.
+__but is 3rd element of full_ctr is copied to the first element of simple ctr? as in line -
+ ```simpleCTR(simple_ctr_segments).u = fullCTR(i+2).u;```
 
 
 
